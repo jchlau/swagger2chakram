@@ -1,0 +1,36 @@
+{
+  "name": "swagger2chakram",
+  "version": "0.0.0",
+  "description": "Test Swagger Apis",
+  "main": "test.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jchlau/swagger2chakram.git"
+  },
+  "author": "Josiah Lau",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "bluebird": "^2.9.26",
+    "chai": "~2.2.0",
+    "chakram": "0.0.3",
+    "es6-promise": "^3.1.2",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^3.7.0",
+    "minimist": "~1.1.1",
+    "mocha": "~2.2.1",
+    "moment": "^2.10.2",
+    "request": "^2.69.0",
+    "spooky": "^0.2.5",
+    "util": "^0.10.3"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.1",
+    "z-schema": "^3.12.0",
+    "request": "^2.58.0",
+    "chai": "^3.0.0",
+    "dotenv": "^1.2.0"
+  },
+  "scripts": {
+    "test": "swagger project test"
+  }
+}
