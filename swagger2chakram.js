@@ -6,7 +6,7 @@ var stream = fs.createWriteStream('test.js');
 var http = require('http');
 var es6 = require('es6-promise').polyfill();
 var fetch = require('isomorphic-fetch');
-var url = 'http://prod.hola.aion.aol.com/swagger.php' //url to retrieve swagger api doc
+var url = '' //url to retrieve swagger api doc
 
 function writeTest() {
   stream.write(`  it(\"should return 200 on success\", function () {\n`)
