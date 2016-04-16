@@ -6,32 +6,34 @@ var stream = fs.createWriteStream('test.js');
 var http = require('http');
 var es6 = require('es6-promise').polyfill();
 var fetch = require('isomorphic-fetch');
-var url = //url to retrieve swagger api doc
+var url = '' //url to retrieve swagger api doc
 
 stream.write('var chakram = require(\'chakram\'),\n')
 stream.write('    expect  = chakram.expect,\n')
 stream.write('    moment  = require(\'moment\'),\n')
 stream.write('    _       = require(\'lodash\'),\n')
-stream.write('    config  = require(\'./config\'),\n')
-stream.write('    baseUrl = config.base_url;\n\n')
+stream.write('    config  = require(\'./config\')\n\n')
 
+
+function writeTest() {
+  stream.write('  it(\"should return 200 on success\", function () {\n')
+  stream.write('    return expect(request).to.have.status(200);\n')
+  stream.write('  });\n')
+  stream.write('  it(\"should return JSON content type and server headers\", function () {\n')
+  stream.write('    expect(request).to.have.header(\"server\");\n')
+  stream.write('    expect(request).to.have.header(\"content-type\", \"application/json\");\n')
+  stream.write('    return chakram.wait();\n')
+}
 
 function createTest(uri, reqType, summary) {
   stream.write('describe(\"' + summary + '\", function() {\n')
   stream.write('  before(function() {\n')
   if (reqType == 'get') {
-    stream.write('    request = chakram.'+reqType+'(baseUrl + \'' + uri+'\', {\'headers\': {\'Accept\': "application/json; version=1.0"}})\n')
+    stream.write('    request = chakram.'+reqType+'(url + \'' + uri+'\', {\'headers\': {\'Accept\': "application/json; version=1.0"}})\n')
     stream.write('  });\n\n')
-    stream.write('  it(\"should return 200 on success\", function () {\n')
-    stream.write('    return expect(request).to.have.status(200);\n')
-    stream.write('  });\n')
-    stream.write('  it(\"should return JSON content type and server headers\", function () {\n')
-    stream.write('    expect(request).to.have.header(\"server\");\n')
-    stream.write('    expect(request).to.have.header(\"content-type\", \"application/json\");\n')
-    stream.write('    return chakram.wait();\n')
   }
   else if (reqType == 'post') {
-    stream.write('    request = chakram.'+reqType+'(baseUrl + \'' + uri+'\',\n')
+    stream.write('    request = chakram.'+reqType+'(url + \'' + uri+'\',\n')
     stream.write('       true,\n')
     stream.write('       {\n')
     stream.write('       \'headers\': {\n')
@@ -42,16 +44,9 @@ function createTest(uri, reqType, summary) {
     stream.write('       }\n')
     stream.write('    })\n')
     stream.write('  });\n\n')
-    stream.write('  it(\"should return 201 on success\", function () {\n')
-    stream.write('    return expect(request).to.have.status(201);\n')
-    stream.write('  });\n')
-    stream.write('  it(\"should return JSON content type and server headers\", function () {\n')
-    stream.write('    expect(request).to.have.header(\"server\");\n')
-    stream.write('    expect(request).to.have.header(\"content-type\", \"application/json\");\n')
-    stream.write('    return chakram.wait();\n')
   }
   else if (reqType == 'put') {
-    stream.write('    request = chakram.'+reqType+'(baseUrl + \'' + uri+'\',\n')
+    stream.write('    request = chakram.'+reqType+'(url + \'' + uri+'\',\n')
     stream.write('       true,\n')
     stream.write('       {\n')
     stream.write('       \'headers\': {\n')
@@ -62,16 +57,9 @@ function createTest(uri, reqType, summary) {
     stream.write('       }\n')
     stream.write('    })\n')
     stream.write('  });\n\n')
-    stream.write('  it(\"should return 200 on success\", function () {\n')
-    stream.write('    return expect(request).to.have.status(200);\n')
-    stream.write('  });\n')
-    stream.write('  it(\"should return JSON content type and server headers\", function () {\n')
-    stream.write('    expect(request).to.have.header(\"server\");\n')
-    stream.write('    expect(request).to.have.header(\"content-type\", \"application/json\");\n')
-    stream.write('    return chakram.wait();\n')
   }
   else if (reqType == 'delete') {
-    stream.write('    request = chakram.'+reqType+'(baseUrl + \'' + uri+'\',\n')
+    stream.write('    request = chakram.'+reqType+'(url + \'' + uri+'\',\n')
     stream.write('       true,\n')
     stream.write('       {\n')
     stream.write('       \'headers\': {\n')
@@ -79,13 +67,8 @@ function createTest(uri, reqType, summary) {
     stream.write('       },\n')
     stream.write('    })\n')
     stream.write('  });\n\n')
-    stream.write('  it(\"should return 204 on success\", function () {\n')
-    stream.write('    return expect(request).to.have.status(204);\n')
-    stream.write('  });\n')
-    stream.write('  it(\"should return JSON content type and server headers\", function () {\n')
-    stream.write('    expect(request).to.have.header(\"server\");\n')
-    stream.write('    return chakram.wait();\n')
   }
+  writeTest();
   stream.write('  });\n')
   stream.write('});\n\n')
 }
